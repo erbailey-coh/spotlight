@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Spring in My Grandparents' Woods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.css">
+  <style>
+    :root {
+      --forest-dark:  #0d1c0d;
+      --forest-mid:   #1c3020;
+      --leaf-green:   #4d8c5c;
+      --spring-green: #7cb87b;
+      --cream:        #f5eed6;
+      --warm-white:   #faf5e8;
+      --gold:         #c8a84b;
+      --muted-gold:   #8b7336;
+      --rust:         #c86b3a;
+    }
+
+    body { background-color: var(--forest-dark); }
+
+    .reveal {
+      font-family: 'Lato', sans-serif;
+      font-size: 26px;
+      color: var(--cream);
+      background-color: var(--forest-dark);
+    }
+
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      text-transform: none;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+    }
+    .reveal h1 { font-size: 2.0em; color: var(--warm-white); margin-bottom: 0.15em; }
+    .reveal h2 { font-size: 1.45em; color: var(--gold); }
+    .reveal h3 { font-size: 1.0em; color: var(--spring-green); font-style: italic; font-weight: 400; margin: 0.1em 0 0.5em; }
+
+    .reveal .progress { color: var(--spring-green); height: 4px; }
+    .reveal .controls { color: var(--spring-green); }
+
+    /* ── Overlay box ───────────────────────────────────── */
+    .box {
+      background: rgba(10, 25, 10, 0.82);
+      padding: 0.75em 1.1em;
+      border-radius: 5px;
+      border-left: 4px solid var(--spring-green);
+      display: inline-block;
+      max-width: 92%;
+      text-align: left;
+    }
+
+    /* ── Fact list ─────────────────────────────────────── */
+    .facts {
+      list-style: none;
+      padding: 0; margin: 0.4em 0 0;
+      text-align: left;
+    }
+    .facts li {
+      padding: 0.25em 0 0.25em 1.2em;
+      border-bottom: 1px solid rgba(125, 184, 123, 0.18);
+      font-size: 0.78em;
+      color: var(--cream);
+      position: relative;
+    }
+    .facts li::before {
+      content: "▸";
+      color: var(--spring-green);
+      position: absolute; left: 0;
+    }
+    .facts li:last-child { border-bottom: none; }
+
+    .hi { color: var(--gold); font-weight: 700; }
+    .sci { font-style: italic; color: var(--spring-green); font-size: 0.82em; display: block; margin-bottom: 0.3em; }
+
+    /* ── Two-column plant layout ───────────────────────── */
+    .plant-slide {
+      display: grid;
+      grid-template-columns: 54% 46%;
+      gap: 1.6em;
+      align-items: center;
+      height: 78vh;
+      padding: 0 0.5em;
+    }
+    .plant-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+    .plant-slide .text { text-align: left; }
+
+    /* ── Side-by-side images ───────────────────────────── */
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1em;
+      height: 62vh;
+    }
+    .pair img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.55);
+    }
+
+    /* ── Caption ───────────────────────────────────────── */
+    .cap {
+      font-size: 0.52em;
+      color: rgba(245, 238, 214, 0.55);
+      font-style: italic;
+      margin-top: 0.3em;
+    }
+
+    /* ── Big zero ──────────────────────────────────────── */
+    .big-zero {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5em;
+      color: var(--rust);
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    /* ── Divider ───────────────────────────────────────── */
+    .divider {
+      width: 70px; height: 3px;
+      background: var(--spring-green);
+      margin: 0.4em auto 0.7em;
+    }
+
+    /* ── Rotated portrait image (phone held sideways) ──── */
+    .rot-wrap {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .rot-wrap img {
+      /* Portrait image rotated to fill landscape slide.
+         height: 178% means after -90deg rotation the visual
+         width ≈ fills the 1280px slide. */
+      height: 178%;
+      width: auto;
+      max-width: none;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      object-fit: cover;
+    }
+
+    /* ── Thumb inset ───────────────────────────────────── */
+    .thumb {
+      width: 110px; height: 75px;
+      object-fit: cover;
+      border-radius: 3px;
+      border: 2px solid var(--forest-mid);
+      margin-top: 0.6em;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 1 — TITLE
+══════════════════════════════════════════ -->
+<section data-background-image="images/virginia_bluebells.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div class="box" style="text-align:center; padding: 1.2em 2em;">
+    <h1>Spring in My<br>Grandparents' Woods</h1>
+    <div class="divider"></div>
+    <p style="color:var(--muted-gold); font-size:0.6em; margin:0;">April 2026</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 2 — THE SETTING
+══════════════════════════════════════════ -->
+<section>
+  <h2 style="margin-bottom:0.3em;">My Grandparents' Farm</h2>
+  <div class="pair" style="height:68vh;">
+    <div>
+      <img src="images/woods_aerial.png" alt="Aerial view"
+           style="width:100%; height:100%; object-fit:contain; background:#0a150a; border-radius:4px; box-shadow:0 4px 16px rgba(0,0,0,0.55);">
+      <p class="cap">Satellite view — woods (upper left); grandparents' house (lower right)</p>
+    </div>
+    <div>
+      <img src="images/woods_topo.png" alt="Topo map"
+           style="width:100%; height:100%; object-fit:contain; background:#0a150a; border-radius:4px; box-shadow:0 4px 16px rgba(0,0,0,0.55);">
+      <p class="cap">Along a creek bend in the woods</p>
+    </div>
+  </div>
+  <p style="font-size:0.7em; color:var(--spring-green); margin-top:0.2em;">
+    Family woods that have been in the family for generations
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 3 — HEADING IN
+══════════════════════════════════════════ -->
+<section data-background-image="images/dad_and_sam.jpg"
+         data-background-size="cover"
+         data-background-position="center top">
+  <div class="box" style="margin-top: 52vh;">
+    <h2 style="margin:0 0 0.2em;">Heading In</h2>
+    <p style="font-size:0.78em; margin:0;">
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 4 — EMERALD ASH BORER
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide">
+    <img src="images/ash_borer_damage.jpg" alt="Ash borer damage">
+    <div class="text">
+      <h2>The Emerald Ash Borer</h2>
+      <span class="sci">Agrilus planipennis</span>
+      <ul class="facts">
+        <li>Invasive beetle from Asia, arrived in North America ~2002</li>
+        <li>Has killed <span class="hi">billions</span> of ash trees across the continent</li>
+        <li>The fallen trees open the canopy…</li>
+        <li>…which actually <span class="hi">benefits spring wildflowers</span> by letting in light</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 5 — MULTIFLORA ROSE
+══════════════════════════════════════════ -->
+<section data-background-image="images/multiflora_bramble.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div class="box" style="position:absolute; bottom:1.2em; left:50%; transform:translateX(-50%); width:88%;">
+    <h2 style="color:var(--warm-white);">Multiflora Rose</h2>
+    <span class="sci" style="display:inline-block; margin-bottom:0.3em;">Rosa multiflora</span>
+    <ul class="facts">
+      <li>Native to Asia — the USDA <em>actively encouraged</em> planting it in the mid-1900s as erosion control and "living fences"</li>
+      <li>Now one of the most invasive shrubs in eastern North America; a Federal Noxious Weed</li>
+      <li>Each plant produces up to <span class="hi">500,000 seeds per year</span>, spread by birds</li>
+      <li>Dense thickets are completely impenetrable — has taken over large sections of the woods</li>
+      <li>Cutting it just stimulates regrowth; it is extremely hard to eradicate</li>
+      <li style="color:var(--gold); font-style:italic;">Wasn't like this when I was a kid.</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 6 — MOREL HUNTING
+══════════════════════════════════════════ -->
+<section data-background-image="images/morel.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div class="box" style="position:absolute; bottom:1.2em; left:50%; transform:translateX(-50%); width:88%;">
+    <h2>Morel Mushrooms</h2>
+    <span class="sci" style="display:inline-block; margin-bottom:0.4em;">Morchella spp.</span>
+    <ul class="facts">
+      <li>Emerge in spring when soil temps reach ~50°F</li>
+      <li>Love dying ash, elm, and old apple trees</li>
+      <li>Notoriously elusive — even experienced hunters get skunked</li>
+      <li>Hollow inside</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 6 — WHAT ARE SPRING EPHEMERALS?
+══════════════════════════════════════════ -->
+<section data-background-image="images/virginia_bluebells.jpg"
+         data-background-size="cover"
+         data-background-position="center"
+         data-background-opacity="0.45">
+  <div class="box" style="max-width:680px; margin: 0 auto;">
+    <h2 style="color:var(--warm-white);">What Are Spring Ephemerals?</h2>
+    <ul class="facts">
+      <li>Wildflowers that complete their <span class="hi">entire above-ground life in just weeks</span></li>
+      <li>Emerge, flower, set seed, and vanish — before the tree canopy leafs out</li>
+      <li>Racing to capture sunlight through the narrow spring window</li>
+      <li>By summer, the forest floor looks like they were never there</li>
+    </ul>
+    <p style="font-size:0.72em; margin:0.8em 0 0; color:var(--spring-green);">
+      My grandparents' woods are full of them. Let's take a tour.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 7 — PRAIRIE TRILLIUM
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide">
+    <img src="images/prairie_trillium.jpg" alt="Prairie trillium">
+    <div class="text">
+      <h2>Prairie Trillium</h2>
+      <span class="sci">Trillium recurvatum</span>
+      <ul class="facts">
+        <li>Everything in <span class="hi">threes</span>: 3 leaves, 3 petals, 3 sepals</li>
+        <li>Sepals reflex (fold back) — hence <em>recurvatum</em></li>
+        <li>Deep maroon petals; native to the Midwest</li>
+        <li>Takes <span class="hi">7–10 years</span> to bloom from seed</li>
+        <li>Never pick one — the plant may not recover for years</li>
+      </ul>
+      <p style="font-size:0.62em; color:var(--muted-gold); margin-top:0.7em;">
+        Spotted a few still waking up — just leaves, no flower yet:
+      </p>
+      <img src="images/trillium_unbloomed.jpg" class="thumb" alt="Unbloomed trillium">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 8 — TROUT LILY
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide">
+    <img src="images/trout_lily_2.jpg" alt="Trout lily">
+    <div class="text">
+      <h2>Trout Lily</h2>
+      <span class="sci">Erythronium americanum</span>
+      <ul class="facts">
+        <li>Named for its <span class="hi">mottled brown-and-green leaves</span> — just like a brook trout</li>
+        <li>The nodding yellow flower closes up at night</li>
+        <li>Plants don't flower until they're <span class="hi">~7 years old</span></li>
+        <li>A colony of thousands may have only a handful of flowers</li>
+        <li>Seeds are dispersed by ants (myrmecochory)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 9 — WILD BLUE PHLOX
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide">
+    <img src="images/blue_phlox.jpg" alt="Wild blue phlox">
+    <div class="text">
+      <h2>Wild Blue Phlox</h2>
+      <span class="sci">Phlox divaricata</span>
+      <ul class="facts">
+        <li>Also called "woodland phlox" — fragrant lavender-blue flowers</li>
+        <li>One of the best <span class="hi">early-season nectar sources</span> for pollinators</li>
+        <li>Unlike true ephemerals, its foliage lingers through summer</li>
+        <li>Often found growing through leaf litter on rich woodland floors</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 10 — VIRGINIA BLUEBELLS
+══════════════════════════════════════════ -->
+<section data-background-image="images/virginia_bluebells.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div class="box" style="position:absolute; bottom:1.2em; left:50%; transform:translateX(-50%); width:82%;">
+    <h2 style="color:var(--warm-white);">Virginia Bluebells</h2>
+    <span class="sci" style="display:inline-block; margin-bottom:0.3em;">Mertensia virginica</span>
+    <ul class="facts">
+      <li>A true spring ephemeral — <span class="hi">completely gone by June</span></li>
+      <li>Buds open <em>pink</em>, then turn <em>blue</em> as they mature (pH shift in cell sap)</li>
+      <li>Loves rich bottomland woods along rivers and streams</li>
+      <li>One of the most spectacular spring wildflowers in eastern North America</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 11 — MAY APPLES
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide">
+    <img src="images/may_apples.jpg" alt="May apples">
+    <div class="text">
+      <h2>May Apples</h2>
+      <span class="sci">Podophyllum peltatum</span>
+      <ul class="facts">
+        <li>These "umbrellas" push up through the leaf litter each spring</li>
+        <li><span class="hi">Only two-leaved plants flower</span> — single-leaved ones are juveniles</li>
+        <li>The white flower hides beneath the leaves</li>
+        <li><em>Everything</em> is toxic… except the ripe yellow fruit in late summer</li>
+        <li>A cancer drug (Etoposide) is derived from this plant</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 12 — MARSH MARIGOLD
+══════════════════════════════════════════ -->
+<section data-background-image="images/marsh_marigold.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div class="box" style="position:absolute; bottom:1.2em; left:50%; transform:translateX(-50%); width:82%;">
+    <h2 style="color:var(--warm-white);">Marsh Marigold</h2>
+    <span class="sci" style="display:inline-block; margin-bottom:0.3em;">Caltha palustris</span>
+    <ul class="facts">
+      <li>One of the <span class="hi">earliest spring bloomers</span> — sometimes while snow lingers</li>
+      <li>Those brilliant yellow "petals" are actually <em>sepals</em> — no true petals</li>
+      <li>Grows in seeps, stream margins, and wet woodland edges</li>
+      <li>Historically eaten as a spring green — must be cooked first (raw is toxic)</li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 13 — JACK-IN-THE-PULPIT
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide" style="grid-template-columns: 38% 62%;">
+    <img src="images/Jack-in-the-pulpit.jpg" alt="Jack-in-the-pulpit" style="max-height:75vh;">
+    <div class="text">
+      <h2>Jack-in-the-Pulpit</h2>
+      <span class="sci">Arisaema triphyllum</span>
+      <ul class="facts">
+        <li>The "pulpit" = the <span class="hi">spathe</span>; "Jack" = the <span class="hi">spadix</span> inside</li>
+        <li>Tiny flowers are hidden at the base of the spadix</li>
+        <li>Plants <span class="hi">change sex from year to year</span> — bigger plants become female</li>
+        <li>Fooled flies enter the pulpit briefly, picking up pollen on the way out</li>
+        <li>Berries turn brilliant red in fall… and are toxic</li>
+        <li>All parts contain burning calcium oxalate crystals</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 14 — PAWPAW
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide">
+    <img src="images/pawpaw1.webp" alt="Pawpaw fruit">
+    <div class="text">
+      <h2>Pawpaw</h2>
+      <span class="sci">Asimina triloba &nbsp;·&nbsp; "the Indiana Banana"</span>
+      <ul class="facts">
+        <li>The <span class="hi">largest edible fruit native to North America</span></li>
+        <li>The only non-tropical species in its genus — a piece of the tropics hiding in a midwestern forest</li>
+        <li>Tastes like a cross between banana, mango, and vanilla custard</li>
+        <li>Grows in the forest understory, often in clonal colonies via root suckers</li>
+        <li>Blooms in early spring — small dark maroon flowers that mimic rotting meat to attract fly pollinators</li>
+        <li>The <span class="hi">Zebra Swallowtail butterfly</span> depends entirely on pawpaw as its larval host plant</li>
+        <li>A very short shelf life keeps them out of grocery stores — you have to find them yourself</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 15 — BLACK LOCUST
+══════════════════════════════════════════ -->
+<section>
+  <div class="plant-slide">
+    <img src="images/black_locust.jpg" alt="Black locust thorns">
+    <div class="text">
+      <h2>Black Locust</h2>
+      <span class="sci">Robinia pseudoacacia</span>
+      <ul class="facts">
+        <li>Those thorns can be <span class="hi">4–5+ inches long</span> — serious business</li>
+        <li>Native to the Appalachians; naturalized across the Midwest for hundreds of years</li>
+        <li>Why such enormous thorns? Probably <span class="hi">defense against Pleistocene megafauna</span> — mastodons, giant ground sloths — that went extinct ~10,000 years ago</li>
+        <li>An "evolutionary anachronism": the tree hasn't gotten the memo that its predators are gone</li>
+        <li>Fixes nitrogen like a legume — alters the soil chemistry around it</li>
+        <li>Extremely rot-resistant wood; fence posts last for decades</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 15 — BONUS TRANSITION
+══════════════════════════════════════════ -->
+<section data-background-image="trolls/5235.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div style="position:absolute; bottom:0; left:0; right:0;
+              background:rgba(10,25,10,0.85);
+              border-top:3px solid var(--spring-green);
+              max-width: 480px;
+              padding:0.6em 1.5em;
+              text-align:center;">
+    <span style="font-family:'Playfair Display',serif; font-size:1.5em; color:var(--gold); font-weight:700;">Bonus Round<br/></span>
+    <span style="font-size:0.85em; color:var(--spring-green); margin:0 0.8em;">·<br /></span>
+    <span style="font-family:'Playfair Display',serif; font-size:1.1em; color:var(--spring-green);">The Trolls of Aullwood</span>
+    <p style="font-size:0.7em; color:var(--cream); margin:0.2em 0 0;">
+    <ul class="facts" style="max-width:480px;">
+      <li>Created by Danish artist <span class="hi">Thomas Dambo</span>, who builds giant trolls from reclaimed materials around the world</li>
+      <li>At <span class="hi">Aullwood Audubon Center &amp; Farm</span>, Dayton, Ohio</li>
+    </ul>
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 16 — BODIL
+══════════════════════════════════════════ -->
+<section data-background-image="trolls/troll1.jpg"
+         data-background-size="cover"
+         data-background-position="center top">
+  <div class = "box" style="position:absolute; bottom:-70vh; left:50%; transform:translateX(-50%); width:85%;
+              background:rgba(10,25,10,0.82);
+              border-top:3px solid var(--spring-green);
+              padding:0.45em 1.2em;
+              text-align:center;">
+    <span style="font-family:'Playfair Display',serif; font-size:1.15em; color:var(--gold); font-weight:700;">Bodil</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 17 — BO
+══════════════════════════════════════════ -->
+<section data-background-image="trolls/troll2.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div class = "box" style="position:absolute; bottom:-70vh; left:50%; transform:translateX(-50%); width:85%;
+              background:rgba(10,25,10,0.82);
+              border-top:3px solid var(--spring-green);
+              padding:0.45em 1.2em;
+              text-align:center;">
+    <span style="font-family:'Playfair Display',serif; font-size:1.15em; color:var(--gold); font-weight:700;">Bo</span>
+    <span style="font-size:0.72em; color:var(--cream); margin-left:1em;">These sculptures are <strong>enormous</strong></span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SLIDE 18 — BIBBI
+     (phone photo taken sideways → rotated in CSS)
+══════════════════════════════════════════ -->
+<section data-background-image="trolls/5233.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+  <div style="position:absolute; bottom:-70vh; left:50%; transform:translateX(-50%); width:85%;
+              background:rgba(10,25,10,0.82);
+              border-top:3px solid var(--spring-green);
+              padding:0.45em 1.2em;
+              text-align:center;">
+    <span style="font-family:'Playfair Display',serif; font-size:1.15em; color:var(--gold); font-weight:700;">Bibbi</span>
+    <span style="font-size:0.72em; color:var(--cream); margin-left:1em;">Trying to fly</span>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 19 — TROLL FACE CLOSE-UP
+══════════════════════════════════════════ -->
+<section data-background-image="trolls/5224.jpg"
+         data-background-size="cover"
+         data-background-position="center">
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    transition: 'fade',
+    transitionSpeed: 'slow',
+    backgroundTransition: 'fade',
+    progress: true,
+    controls: true,
+    controlsTutorial: false,
+    center: true,
+    width: 1280,
+    height: 720,
+    margin: 0.04,
+    minScale: 0.2,
+    maxScale: 2.0,
+  });
+</script>
+</body>
+</html>
